@@ -1,0 +1,47 @@
+<h1><%= @restaurant.name %></h1>
+
+<p>
+  <strong>Address:</strong> <%= @restaurant.address %>
+</p>
+
+<p>
+  <strong>Phone:</strong> <%= @restaurant.phone_number %>
+</p>
+
+<p>
+  <strong>Category:</strong> <%= @restaurant.category %>
+</p>
+
+<h2>Reviews</h2>
+
+<% if @restaurant.reviews.any? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Rating</th>
+        <th>Content</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @restaurant.reviews.each do |review| %>
+        <tr>
+          <td><%= review.rating %> / 5</td>
+          <td><%= review.content %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No reviews yet.</p>
+<% end %>
+
+<h3>Add a review</h3>
+
+<%= simple_form_for [@restaurant, @review] do |f| %>
+  <%= f.input :rating, label: "Rating (0-5)", collection: 0..5, required: true %>
+  <%= f.input :content, label: "Review content", as: :text, required: true %>
+
+  <%= f.button :submit, "Add review", class: "btn btn-primary" %>
+<% end %>
+
+<%= link_to "Back to list", restaurants_path, class: "btn btn-secondary" %>
